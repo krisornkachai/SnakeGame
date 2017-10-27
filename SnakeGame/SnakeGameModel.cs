@@ -118,13 +118,14 @@ namespace SnakeGame
 
             // random new food
             int x, y;
+          //  for(int II = 0; II < 10; II++) { 
             do
             {
                 x = rand.Next(boardWidth);
                 y = rand.Next(boardHeight);
-            } while (isSnakeBody(x, y));
-            _board[x, y] = BOARD_FOOD;
-        }
+            } while (isSnakeBody(x, y) || _board[x, y]==BOARD_WALL);
+            _board[x, y] = BOARD_FOOD;}
+       // }
 
         protected bool isSnakeBody(int x, int y)
         {
@@ -217,6 +218,11 @@ namespace SnakeGame
         public int SnakeLength()
         {
             return snakeBody.Count;
+        }
+
+        public void resetSpeed()
+        {
+           _speed = 1;
         }
     }
 }

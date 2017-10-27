@@ -14,6 +14,7 @@ namespace SnakeGame
     {
         protected SnakeGameModel sgm = null;
         protected SnakeGameView sgv = null;
+        protected SnakeGameView2x sgv2x = null;
         protected SnakeGameController sgc = null;
 
         protected static Snake _instance = null;
@@ -69,6 +70,7 @@ namespace SnakeGame
                 Snake.Debug("set controller");
                 sgv.setController(sgc);
                 Snake.Debug("Start the controller");
+                sgm.resetSpeed();
                 sgc.Start();
                 sgv.Run();
             } catch
@@ -115,6 +117,38 @@ namespace SnakeGame
             {
                 sgv.Dispose();
                 sgv.Exit();
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (sgv2x != null)
+            {
+                DisposeGame();
+            }
+            try
+            {
+                Snake.Debug("create view");
+                sgv2x = new SnakeGameView2x(80, 80);
+                Snake.Debug("create model");
+                sgm = new SnakeGameModel(80, 80);
+                Snake.Debug("create controller");
+                sgc = new SnakeGameController();
+                Snake.Debug("attach model");
+                sgc.AddModel(sgm);
+                Snake.Debug("attach view");
+                sgm.AttachObserver(sgv2x);
+                sgm.AttachObserver(this);
+                Snake.Debug("set controller");
+                sgv2x.setController(sgc);
+                Snake.Debug("Start the controller");
+                sgm.resetSpeed();
+                sgc.Start();
+                sgv2x.Run();
+            }
+            catch
+            {
+                Snake.Debug("Error starting game");
             }
         }
     }

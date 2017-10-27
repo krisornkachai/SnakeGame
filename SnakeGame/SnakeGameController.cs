@@ -6,12 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 
+
 namespace SnakeGame
 {
     public class SnakeGameController : Controller
     {
         Timer timer;
-
+        Timer memtime;
+        bool pause=false;
         public SnakeGameController()
         {
             // update the board every one second;
@@ -25,24 +27,53 @@ namespace SnakeGame
         {
             int direction = -1;
             Keys[] keys = ks.GetPressedKeys();
-           
-            if (keys.Contains(Keys.Up))
+            if (keys.Contains(Keys.Space))
             {
+              
+                    
+                    
+                    Stop();
+                    //System.Threading.Thread.Sleep(1000);
+                    
+                
+                    
+                    
+            }
+            else if (keys.Contains(Keys.Up))
+            {
+                Start();
                 direction = SnakeGameModel.MOVE_UP;
             }
             else if(keys.Contains(Keys.Down))
             {
+                Start();
                 direction = SnakeGameModel.MOVE_DOWN;
             }
             else if(keys.Contains(Keys.Left))
             {
+                Start();
                 direction = SnakeGameModel.MOVE_LEFT;
             }
             else if(keys.Contains(Keys.Right))
             {
+                Start();
                 direction = SnakeGameModel.MOVE_RIGHT;
             }
+            
             // Find all snakeboard model we know
+          
+            
+            /*  if (direction == -5 && pause==false) {
+               // memtime = timer;
+                Stop();
+                pause = true;
+            }
+           else if (direction == -5 && pause == true)
+            {
+               // timer = memtime;
+                Start();
+                pause = false;
+            }*/
             if (direction == -1) return;
             foreach (Model m in mList)
             {
@@ -59,13 +90,16 @@ namespace SnakeGame
 
         public void Start()
         {
-            timer.Enabled = true; 
+            timer.Start();
+            // timer.Enabled = true; 
         }
 
         public void Stop()
         {
             // Stop the game
-            timer.Enabled = false;
+            timer.Stop();
+            //  timer.Enabled = false;
+            //timer.Enabled = !timer.Enabled;
         }
 
         private void OnTimedEvent(Object source, ElapsedEventArgs e)
